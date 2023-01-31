@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_template_tags %}
+{% block title %}Sasta Bazaar - Cart{% endblock title %}
+{% block head %}
+{% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<link rel="stylesheet" href="node_modules/mdbootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="node_modules/mdbootstrap/css/mdb.min.css">
+<link rel="stylesheet" href="node_modules/mdbootstrap/css/style.css"> {% endcomment %}
+<style>
+    #cart {
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+<section id="cart">
+  {% if messages %}
+  {% for msg in messages %}
+  <div style="position: absolute; top: 85px; width: 100vw;" {% if msg.tags %} class="alert alert-{{msg.tags}} alert-dismissible fade show" {% endif %} role="alert">
+      {{msg}} 
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+      {% endfor %}
+  {% endif %}
+    
+  <div class="row">
+    
+    <div class="col-sm-7 mt-4">
+      {% for order in cart.items.all %}
+    <div class="card rounded-3 mb-4">
+        <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">             
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                <a href="{% url 'productview' order.item.id %}">
+                  {% with order.item.pimage_set.all|first as photo %}
+                <img
+                    src="{{photo.image.url}}"
+                    class="img-thumbnail rounded-3" alt="Cotton T-shirt">
+                </a>
+                {% endwith %}
+                                
+                </div>
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <p class="lead fw-norma mb-2"><b>{{order.item.product_name | slice:":20"}}</b></p>
+              <h6 class="mb-0" style="font-size: 80%;"><b>Category: </b>{{order.item.get_category_display | upper }}</h6>
+              <p><span class="text-muted" style="font-size: 80%;">{{order.item.description | slice:":35"}}...</p>
+            </div>
+            <div class="col-md-2 col-lg-2 col-xl-2 d-flex" style="font-size: 70%;">
+            <form action="{% url 'remove' order.item.id %}" method="post">{% csrf_token %}
+              <button class="btn btn-link" style="font-size: 80%;">
+                <i class="fas fa-minus"></i>
+              </button>
+            </form>
+
+                <p style="font-size: 140%;">{{order.quantity}}</p>
+            <form action="{% url 'addtocart' order.item.id %}" method="post">{% csrf_token %}
+              <button class="btn btn-link" style="font-size: 80%;">
+                <i class="fas fa-plus"></i>
+              </button>
+            </form>
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mb-2">
+              <div class="d-block">
+                <h6 class="mb-1" style="font-size: 90%;">Rs.{{order.item.price}}</h6>
+                <h6 class="mb-0" style="font-size: 90%;">Total Price Rs.{{order.total_price}}</h6>
+              </div>
+            </div>
+            
+            <div class="col-md-2 col-lg-2 col-xl-2 text-end">
+              
+                <form action="{% url 'remove_all' order.item.id %}" method="post" class="text-center"> {% csrf_token %}
+                    <button class="btn btn-sm btn-danger" type='submit'><i class="fas fa-trash-alt"></i></button>
+                </form>
+              
+              </div>
+          </div>
+        </div>
+      </div>
+
+        {% endfor %}
+        {% if cart.cart_total >= 1 %}
+        <table class="table table-dark table-hover mx-2">
+          <tr>
+            <td>Cart Total -</td>
+            <td>Rs.{{cart.cart_total}}.00</td>
+          </tr>
+        </table>
+        {% endif %}
+      </div>
+
+    {% if cart.cart_total >= 1 %}
+    <div class="col-sm-5 mt-4">
+
+      {% comment %} <form action="" method="post"> {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Place Order">
+      </form> {% endcomment %}
+
+      <form class="row g-3 px-2" method="POST"> {% csrf_token %}
+        <div class="col-sm-12">
+          <label for="id_contact" class="form-label">{{form.contact.label_tag}}</label>
+          {{form.contact}}
+        </div>
+        
+        <div class="col-12">
+          <label for="id_address" class="form-label">{{form.address.label_tag}}</label>
+          {{form.address}}
+        </div>
+        <div class="col-12">
+          <label for="id_address2" class="form-label">{{form.address2.label_tag}}</label>
+          {{form.address2}}
+        </div>
+        <div class="col-sm-12">
+          <label for="id_country" class="form-label">{{form.country.label_tag}}</label>
+          {{form.country}}
+        </div>
+        <div class="col-sm-7">
+          <label for="id_city" class="form-label">{{form.city.label_tag}}</label>
+          {{form.city}}
+        </div>
+        
+        <div class="col-sm-5">
+          <label for="id_zip" class="form-label">{{form.zip_code.label_tag}}</label>
+          {{form.zip_code}}
+        </div>
+        <div class="col-12">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+              Cash on delivery* 
+            </label>
+          </div>
+        </div>
+        <div class="col-12 mb-2">
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-dark">Place Order</button>  
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+ 
+
+  {% else %}
+  <div class="container m-auto text-center">
+    <h3 class="text-center m-auto">Your cart is empty!</h3>
+    <a href="{% url 'shop' %}" class="btn btn-primary btn-sm">Continue Shopping</a>
+  </div>
+  {% endif %}
+  
+  {% comment %} <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <p>{{field.label_tag}} {{field}}</p>
+        <p>{{field.errors}}</p>
+    {% endfor %}
+    <input type="submit" value="submit">
+  </form>  {% endcomment %}
+  {% if ordered %}
+  {% for it in ordered.items.all %}
+    <div>{{it}}</div>
+  {% endfor %} 
+  {% endif %}
+  
+  
+</section>
+    {% endblock content %}

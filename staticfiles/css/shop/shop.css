@@ -1,0 +1,92 @@
+#shop {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.product-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.slider-container {
+    max-width: 1120px;
+    width: 100%;
+    padding: 40px 0px;
+}
+
+.slide-content {
+    margin: 0px 40px;
+    overflow: hidden;
+    /* border-radius: 25px; */
+    /* border: 1px solid black; */
+}
+
+.card-img-top {
+    height: 150px;
+    /* height: 100%; */
+    /* width: 100%; */
+    width: 150px;
+    margin: 0 auto;
+    object-fit: cover;
+    /* border-radius: 50%;
+    border: 4px solid #4070F4; */
+}
+
+.card-text {
+    font-size: 12px;
+}
+
+.swiper-navBtn{
+    color: #6E93f7;
+    transition: color 0.3s ease;
+}
+
+.swiper-navBtn:hover{
+    color: #4070F4;
+}
+
+.swiper-navBtn::before,
+.swiper-navBtn::after{
+    font-size: 35px;
+}
+
+.swiper-button-next{
+    right: 0;
+    background-color: black;
+    display: none;
+}
+
+.swiper-button-prev{
+    left: 0;
+    background-color: black;
+    display: none;
+}
+
+.swiper-pagination-bullet{
+    background-color: #010716;
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active{
+    background-color: #4070F4;
+}
+  
+@media screen and (max-width: 768px) {
+    .slide-content{
+      margin: 0 10px;
+    }
+    .swiper-navBtn{
+      display: none;
+    }
+}
+
+.btn {
+    font-size: 11px;
+}
+
+.btn.btn-outline-success {
+    font-size: 24px;
+}

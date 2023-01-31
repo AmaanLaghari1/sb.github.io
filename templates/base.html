@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_template_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'font-6/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mediaq.css' %}">
+
+    {% block head %}{% endblock head %}
+    
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg py-3" id="navbar">
+    <div class="container-fluid">
+      <div class="logo">
+        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static '/images/SBlogo.png' %}" class="logo-img" alt=""></a>
+      </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          {% comment %} <span class="navbar-toggler-icon"></span> {% endcomment %}
+          <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        </button>
+        
+        <div class="collapse navbar-collapse justify-content-end navlist" id="navbarSupportedContent">
+        <div>
+          {% if shop %}
+          <form style="width: 100%" class="d-flex" method="GET" action='{% url 'search' %}'>
+            <input style="width: 100%" class="form-control me-2" name="q" type="search" placeholder="What are you looking for?" aria-label="Search">
+            <button class="btn-sm btn-info" type="submit">Search</button>
+          </form>
+          {% endif %}
+        </div>
+        <ul class="navbar-nav text-center align-items-center">
+          <li class="nav-item"><a href="{% url 'home' %}" class="nav-link {{home}}">Home</a></li>
+
+          {% if home %}
+          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+          {% endif %}
+
+          {% if not request.user.is_authenticated %}
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link {{login}}">Login</a></li>
+          {% endif %}
+
+          {% if request.user.is_authenticated %}
+
+            <li class="nav-item"><a href="{% url 'shop' %}" class="nav-link {{shop}}">Shop</a></li>
+            
+          {% block cat_tab %}
+          
+            
+          {% endblock cat_tab %}
+
+          <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle {{profile}}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">User</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'profile' request.user.id %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item d-flex justify-content-center"><a href="{% url 'cart' %}" class="nav-link text-center" style="background-color: none;"><div class="carticon">
+            <img src="{% static '/images/carticon.png' %}" alt=""><span class="cart-item-count">{{request.user | cart_item_count}}</span>
+          </div></a></li>
+
+          {% endif %}
+
+        </ul>
+        
+        
+      </div>
+    </div>
+  </nav>
+      
+      {% block content %}  
+      {% endblock content %}
+
+    {% block sec2 %}{% endblock sec2 %}
+
+    {% include 'footer.html' %}
+
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    {% block js %}{% endblock js %}
+  </body>
+</html>

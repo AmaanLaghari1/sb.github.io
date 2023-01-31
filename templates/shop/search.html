@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sasta Bazaar - Shop{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/shop/swiper.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/shop.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/media.css' %}">
+{% endblock head %}
+{% block cat_tab %}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Categories
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li><a class="dropdown-item" href="#all-products">All Products</a></li>
+      <li><a class="dropdown-item" href="#clothing">Clothing</a></li>
+      <li><a class="dropdown-item" href="#electronics">Electronics</a></li>
+      <li><a class="dropdown-item" href="#groceries">Groceries</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+</li>
+{% endblock cat_tab %}
+{% block content %}
+<section id="shop">
+    
+
+    <div class="container mt-2">
+        <div class="d-grid gap-2">
+            <a class="btn btn-outline-success" type="button" href="{% url 'addproduct' %}">Add your Product+</a>
+        </div>
+    </div>
+
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="all-products">Search Results</h1>
+        {% if messages %}
+    {% for msg in messages %}
+    <div style="width: 100vw;" class="text-center p-5">
+        {{msg}}
+    </div>
+        {% endfor %}
+    {% endif %}
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in products %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name}}</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    </div>
+
+
+
+
+    
+    
+</section>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/shop/swiper.js' %}"></script>
+<script src="{% static 'js/shop/shop.js' %}"></script>
+{% endblock js %}

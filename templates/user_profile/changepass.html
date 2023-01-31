@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Sasta Bazaar - Change Password{% endblock title %}
+{% block content %}
+
+<div class="container p-4">
+    <h2 class="text-center">Change Password</h2>
+    {% if form.non_field_erroes %}
+        {% for err in form.non_field_errors %}
+            <p>{{err}}</p>
+        {% endfor %}
+    {% endif %}
+    <form action="" method="post" novalidate> {% csrf_token %}
+        {% for field in form %}
+        <p>
+            {{field.label_tag}}
+            {{field}}
+        </p>
+        <div class="gap">
+            <p>
+                {{field.errors}}
+            </p>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-sm btn-success">Save</button>
+    </form>
+</div>
+
+{% endblock content %}

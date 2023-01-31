@@ -1,0 +1,64 @@
+#footer {
+    min-height: 300px;
+    background-color: #0E1116;
+}
+
+.ft-items {
+    height: 300px;
+}
+
+.ft-logo {
+    width: 300px;
+}
+
+.ft-txt {
+    font-size: 14px;
+}
+
+.copyright-text {
+    font-size: 12px;
+}
+
+@media screen and (max-width: 768px){
+    .ft-txt {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .ft-logo {
+        width: 240px;
+    }
+
+    .ft-txt {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 481px) {
+
+    .ft-logo {
+        width: 210px;
+    }
+
+    .ft-txt {
+        font-size: 12px;
+    }
+
+    .copyright-text {
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 320px){
+    .ft-logo {
+        width: 180px;
+    }
+
+    .ft-txt {
+        font-size: 10px;
+    }
+}
+
+
+

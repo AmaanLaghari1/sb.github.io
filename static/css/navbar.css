@@ -1,0 +1,94 @@
+nav, .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.925);
+  }
+
+  .logo img {
+    width: 120px;
+  }
+
+  .carticon img {
+    width: 40px;
+  }
+
+.nav-link {
+    color: #fff;
+    padding: 10px 20px;
+    width: 80%;
+    font-size: 16px;
+    border-radius: 30px;
+    margin: 0 20px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: #fff;
+    background-color: blue;
+    cursor: pointer;
+}
+
+.nav-link.carticon:hover {
+    background-color: transparent;
+}
+
+.nav-item {
+  position: relative;
+  float: left;
+}
+
+.dropdown-item {
+    color: #fff;
+}
+
+.nav-item a.active {
+color: #fff;
+background-color: red;
+}
+
+.cart-item-count {
+position: absolute;
+top: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+color: #fff;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background-color: red;
+font-size: 12px;
+}
+
+.hamburger {
+display: block;
+cursor: pointer;
+z-index: 101;
+}
+
+.hamburger .line {
+width: 30px;
+height: 3px;
+margin: 6px 0;
+background-color: #fff;
+border-bottom: none;
+}
+
+
+
+@media screen and (max-width: 576px) {
+  .logo img {
+    width: 90px;
+  }
+}
+
+@media screen and (max-width: 481px) {
+  .logo img {
+    width: 80px;
+  }
+}
+
+@media screen and (max-width: 320px){
+  .logo img {
+      width: 70px;
+  }
+}

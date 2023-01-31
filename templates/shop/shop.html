@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sasta Bazaar - Shop{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/shop/swiper.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/shop.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop/media.css' %}">
+{% endblock head %}
+{% block cat_tab %}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Categories
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li><a class="dropdown-item" href="#all-products">All Products</a></li>
+      <li><a class="dropdown-item" href="#clothing">Clothing</a></li>
+      <li><a class="dropdown-item" href="#electronics">Electronics</a></li>
+      <li><a class="dropdown-item" href="#groceries">Groceries</a></li>
+      <li><a class="dropdown-item" href="#home-accessories">Home Accessories</a></li>
+    </ul>
+</li>
+{% endblock cat_tab %}
+{% block content %}
+<section id="shop">
+    {% if messages %}
+    {% for msg in messages %}
+    <div style="position: absolute; top: 85px; width: 100vw;" {% if msg.tags %} class="alert alert-{{msg.tags}} alert-dismissible fade show" {% endif %} role="alert">
+        {{msg}} <strong>{{request.user.get_full_name}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container mt-2">
+        <div class="d-grid gap-2">
+            <a class="btn btn-outline-success" type="button" href="{% url 'addproduct' %}">Add your Product+</a>
+        </div>
+    </div>
+
+    <!-- All Products -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="all-products">All Products</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in products %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    <!-- Clothing -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="clothing">Clothing</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in clothing %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    <!-- Clothing - Men -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="clothing">Clothing - Men</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in clothing_men %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    <!-- Clothing - Women -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="clothing">Clothing - Women</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in clothing_women %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    <!-- Electronics -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="electronics">Electronics</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in electronics %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    <!-- Groceries -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="groceries">Groceries</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in groceries %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+    <!-- Home Accessories -->
+    <div class="product-box">
+
+        <h1 class="shop-heading mt-4" id="home-accessories">Home Accessories</h1>
+
+        <div class="slider-container swiper">
+            <div class="card-wrapper">
+                <div class="slide-content">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for item in home_accessories %}
+                        <div class="card swiper-slide" style="width: 18rem;">
+                            {% with item.pimage_set.all|first as photo %}
+                                <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                            {% endwith %}
+                            <div class="card-body">
+                              <p class="card-title text-center">{{item.product_name | slice:":20"}}...</p>
+                              <p class="card-text"><b>Description</b> {{item.description | slice:":40"}}...</p>
+                              <p class="card-text"><b>Rs.</b> {{item.price}}</p>
+                              <div class="d-flex">
+                                  {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                                  <form action="{% url 'addtocart' item.id %}" method="post"> {% csrf_token %}
+                                      <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                                  </form>
+                                  <a href="{% url 'productview' item.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                              </div>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div class='container-fluid text-center p-5'>
+                            <h6>
+                               <i> No products to show in this category! </i>
+                            </h6>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+    
+        </div>
+
+    </div>
+
+
+
+
+    
+    
+</section>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/shop/swiper.js' %}"></script>
+<script src="{% static 'js/shop/shop.js' %}"></script>
+{% endblock js %}

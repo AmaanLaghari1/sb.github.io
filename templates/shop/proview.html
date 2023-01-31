@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sasta Bazaar - Product Details{% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/shop/swiper.css' %}">
+<link rel="stylesheet" href="{% static 'css/shop/proview.css' %}">
+
+{% endblock head %}
+{% block content %}
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-sm-6 mt-4">
+            
+            
+            <div class="slider-container swiper">
+                <div class="card-wrapper">
+                    <div class="slide-content">
+                        <div class="card-wrapper swiper-wrapper">
+                            
+                            {% for img in product.pimage_set.all %}
+                            <div class="swiper-slide" style="width: 18rem;">
+                                
+                                <img src="{{img.image.url}}" class="p-img" alt="...">
+                                
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="swiper-button-next swiper-navBtn"></div>
+                <div class="swiper-button-prev swiper-navBtn"></div>
+                <div class="swiper-pagination"></div>
+            
+            </div>
+
+        </div>
+        <div class="col-sm-6 mt-4 py-5">
+            <h3>{{product.product_name}}</h3>
+            <h4>Ratings - {{product.average_rating}}<span class="fa fa-star rate-btn checked"></span>
+            </h4>
+            <h4>Rs.{{product.price}}.00</h4>
+            {% if product.bulk_quantity %}
+            <h5>{{product.bulk_quantity}} pieces in Rs.{{product.bulk_price}}.00</h5>
+            {% endif %}
+            <h6><b>Category: </b>{{product.get_category_display | upper }}</h6>
+            <h6><b>Sub-Category: </b>{{product.get_sub_category_display | upper }}</h6>
+            <p><h6><b>Description: </b></h6>{{product.description}}</p>
+            {% if product.seller_contact %}
+            <p><b>Seller Contact No: </b><a href="tel:{{product.seller_contact}}" style="text-decoration: none;"><i class="fas fa-phone-alt"></i> {{product.seller_contact}}</a></p>
+            {% endif %}
+            <form action="{% url 'addtocart' product.id %}" method="post"> {% csrf_token %}
+            <button class="btn btn-dark">Add to Cart</button>
+            </form>
+
+            <p>        
+                <button class="btn btn-outline-success mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Add a review+
+                </button>
+            </p>
+              <div class="collapse" id="collapseExample">
+                <div class="container-fluid">
+                    <form action="{% url 'product_rating' product.id %}" method="post"> {% csrf_token %}
+                    <p>
+                        <textarea class="form-control" placeholder="Write your review here..." type="text" name="review" id="review"></textarea>
+                    </p>
+                    <p>
+                        <button type="submit" id="one" class="fa fa-star fa-2x rate-btn" value="1" name="rate"></button>
+                        <button type="submit" id="two" class="fa fa-star fa-2x rate-btn" value="2" name="rate"></button>
+                        <button type="submit" id="three" class="fa fa-star fa-2x rate-btn" value="3" name="rate"></button>
+                        <button type="submit" id="four" class="fa fa-star fa-2x rate-btn" value="4" name="rate"></button>
+                        <button type="submit" id="five" class="fa fa-star fa-2x rate-btn" value='5' name="rate"></button>
+                    </p>
+            
+                    </form>
+                    <script>
+                        const firstStar = document.getElementById('one')
+                        const secondStar = document.getElementById('two')
+                        const thirdStar = document.getElementById('three')
+                        const fourthStar = document.getElementById('four')
+                        const fifthStar = document.getElementById('five')
+
+                        console.log(firstStar)
+
+                        const handleSelect = (selection) => {
+                            switch (selection) {
+                              case 'one':{
+                                firstStar.classList.add('checked')
+                                secondStar.classList.remove('checked')
+                                thirdStar.classList.remove('checked')
+                                fourthStar.classList.remove('checked')
+                                fifthStar.classList.remove('checked')
+                                return
+                              }
+                              case 'two':{
+                                firstStar.classList.add('checked')
+                                secondStar.classList.add('checked')
+                                thirdStar.classList.remove('checked')
+                                fourthStar.classList.remove('checked')
+                                fifthStar.classList.remove('checked')
+                                return
+                              }
+                              case 'three':{
+                                firstStar.classList.add('checked')
+                                secondStar.classList.add('checked')
+                                thirdStar.classList.add('checked')
+                                fourthStar.classList.remove('checked')
+                                fifthStar.classList.remove('checked')
+                                return
+                              }
+                              case 'four':{
+                                firstStar.classList.add('checked')
+                                secondStar.classList.add('checked')
+                                thirdStar.classList.add('checked')
+                                fourthStar.classList.add('checked')
+                                fifthStar.classList.remove('checked')
+                                return
+                              }
+                              case 'five':{
+                                firstStar.classList.add('checked')
+                                secondStar.classList.add('checked')
+                                thirdStar.classList.add('checked')
+                                fourthStar.classList.add('checked')
+                                fifthStar.classList.add('checked')
+                                return
+                              }
+                            }
+                        }
+                        
+                        const stars = [firstStar, secondStar, thirdStar, fourthStar, fifthStar]
+                        
+                        
+                        stars.forEach(element => 
+                          element.addEventListener('mouseover', (e) => {
+                            handleSelect(e.target.id)
+                          }));
+                    </script>
+                    
+                </div>
+              </div>
+
+
+            
+        </div>
+    </div>
+
+    <div class="d-grid gap-2">
+                
+        <button class="btn btn-warning mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampl" aria-expanded="false" aria-controls="collapseExampl">
+            Read Reviews <i class="fa-solid fa-file-lines"></i>
+        </button>
+    </div>
+    <div class="collapse" id="collapseExampl">
+    {% for review in productrating %}
+        <div class="card my-2">
+            <div class="card-body">
+                <h6 class="card-title">{{review.user.username}}</h6>
+                <p class="card-text">
+                    <button type="submit" class="fa fa-star rate-btn {% if review.rate > 0 %}checked{% endif %}" value="1" name="rate"></button>
+                    <button type="submit" class="fa fa-star rate-btn {% if review.rate > 1 %}checked{% endif %}" value="2" name="rate"></button>
+                    <button type="submit" class="fa fa-star rate-btn {% if review.rate > 2 %}checked{% endif %}" value="3" name="rate"></button>
+                    <button type="submit" class="fa fa-star rate-btn {% if review.rate > 3 %}checked{% endif %}" value="4" name="rate"></button>
+                    <button type="submit" class="fa fa-star rate-btn {% if review.rate > 4 %}checked{% endif %}" value='5' name="rate"></button>
+                </p>
+                <p class="card-text">{{review.review}}</p>
+                <p class="card-text"><em><b>{{review.date_created}}</b></em></p>
+            </div>
+        </div>
+        {% empty %}
+                    <p class="card-text text-center p-4"><em>No reviews to show!</em></p>
+    {% endfor %}
+    </div>
+
+    <div class="slider-container swiper">
+        <div class="card-wrapper">
+            <h2 class="mb-5">Similar products in this category -</h2>
+            <div class="slide-content-2" id="similar-products">
+                <div class="card-wrapper swiper-wrapper">
+                    {% for sp in similar_products %}
+                    <div class="card swiper-slide" style="width: 18rem;">
+                        {% with sp.pimage_set.all|first as photo %}
+                            <img src="{{photo.image.url}}" class="card-img-top" alt="...">
+                        {% endwith %}
+                        <div class="card-body">
+                          <p class="card-title text-center">{{sp.product_name | slice:":24"}}...</p>
+                          <p class="card-text"><b>Description</b> {{sp.description | slice:":40"}}...</p>
+                          <p class="card-text"><b>Rs.</b> {{sp.price}}</p>
+                          <div class="d-flex">
+                              {% comment %} <a href="#"><button class="btn btn-sm btn-warning">Add to Cart</button></a> {% endcomment %}
+                              <form action="{% url 'addtocart' sp.id %}" method="post"> {% csrf_token %}
+                                  <button class="btn btn-sm btn-warning" type='submit'>Add to Cart</button>
+                              </form>
+                              <a href="{% url 'productview' sp.id %}"><button class="btn btn-sm btn-info mx-2">View Details</button></a>
+                          </div>
+                        </div>
+                    </div>
+
+                    {% empty %}
+                    <div class='container-fluid text-center p-5'>
+                        <h6>
+                           <i> No products to show in this category! </i>
+                        </h6>
+                    </div>
+                    
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-navBtn">
+            <i class="fas fa-chevron-circle-left fa-3x"></i>        
+        </div>
+        <div class="swiper-navBtn">
+            <div class="fas fa-chevron-circle-right fa-3x"></div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static '/js/shop/swiper.js' %}"></script>
+<script src="{% static '/js/shop/proview.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sasta Bazaar - Signup{% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock head %}
+
+{% block content %}
+{% comment %} <h1>Hello World!</h1>
+<form action="" method="post" novalidate> {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="login">
+</form> {% endcomment %}
+
+
+
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+      <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+      <div class="col-md-8 col-lg-6">
+        <div class="login d-flex align-items-center py-5">
+          <div class="container">
+            {% if messages %}
+              {% for msg in messages %}
+                <div style="position: absolute; top: 100px; width: 100vw;" {% if msg.tags %} class="alert alert-{{msg.tags}} alert-dismissible fade show" {% endif %} role="alert">
+                    {{msg}} 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+            <div class="row">
+              <div class="col-md-9 col-lg-8 mx-auto">
+                <h3 class="login-heading mb-4">Sign Up to join us!</h3>
+  
+                <!-- Signup Form -->
+                <form method='POST' novalidate> {% csrf_token %}
+                {% if form.non_field_errors %}
+                  <div class="non-field-errors gap">
+                    {% for err in form.non_field_errors %}
+                      <p class="form-error">{{ err }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                {% for field in form %}
+                  <div class="form-floating mb-3">
+                    {{field}}
+                    {{field.label_tag}}
+                    <div class="errorlist">
+                      {{field.errors.as_text}}
+                    </div>
+                  </div>
+                {% endfor %}
+                
+                
+                <div class="d-grid">
+                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign Up</button>
+                    <div class="text-center">
+                        <p>Already have an account? <a class="small" href="{% url 'login' %}">Log in</a></p>
+                    </div>
+                </div>
+                
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>    
+{% endblock content %}

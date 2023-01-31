@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sasta Bazaar - Home{% endblock title %}
+{% block content %}
+{% comment %} <se class="back"> {% endcomment %}
+  <section class="back">
+
+  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style='width: 100%;'>
+      <div class="carousel-inner d-flex back">
+        
+        <div class="carousel-item active" data-bs-interval="10000">
+            <div class="banner d-flex m-auto">
+                <h1 class='text-center m-auto b-heading'>Welcome to Sasta Bazaar!</h1>
+            </div>
+        </div>
+        
+        <div class="carousel-item" data-bs-interval="2000">
+          <div class="banner d-flex m-auto">
+              <h1 class='text-center m-auto'>Hyderabad's No. 1 Marketplace!</h1>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="banner d-flex m-auto">
+              <h1 class='text-center m-auto'>You can get the best deals here...</h1>
+          </div>
+        </div>
+      </div>
+      {% comment %} <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button> {% endcomment %}
+    </div>
+
+  </section>
+    
+    {% comment %} </section> {% endcomment %}
+    {% endblock content %}
+
+    {% block sec2 %}
+    <section>
+      <div class="gap"></div>
+      
+      <div class="container-fluid">
+        <h1 class="text-center mt-4" style="color: rgba(13, 65, 236, 0.945);">New Arrivals</h1>
+        <div class="container">
+
+          <div class="d-flex flex-wrap justify-content-center">
+            {% for item in featured_items %}
+              <div class="col-md-4 col-sm-4 col-xs-4 my-2">
+                <div class="card m-auto" style="width: 90%;">
+                  {% with item.pimage_set.all|first as photo %}
+                      <img src="{{photo.image.url}}" class="card-img-top m-auto" alt="new arrivals product image">
+                  {% endwith %}
+                  <div class="card-body">
+                    <h5 class="card-title text-center">{{item.product_name | slice:":20"}}...</h5>
+                    <p class="card-text">Description: {{item.description | slice:":40"}}...</p>
+                    <p class="card-text">Rs.{{item.price}}.00</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Shop Now</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </section>
+  <div class="gap"></div>
+      <div class="custom-shape-divider-bottom-1637127546">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+        </svg>
+      </div>
+    <div class="gap" style="background-color: #0E1116"></div>
+    <div class="custom-shape-divider-top-1637127398">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+        </svg>
+    </div>
+
+
+
+    <section id="faq">
+      <div class="container my-3">
+        <h1 class="text-center my-2" style="color: rgba(13, 65, 236, 0.945);">FAQs</h1>
+        <div class="row">
+          <div class="col-sm-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-text" style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequatur, molestiae recusandae dolorem quidem praesentium</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-text" style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequatur, molestiae recusandae dolorem quidem praesentium</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-text" style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequatur, molestiae recusandae dolorem quidem praesentium</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-text" style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequatur, molestiae recusandae dolorem quidem praesentium</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-text" style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequatur, molestiae recusandae dolorem quidem praesentium</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-text" style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequatur, molestiae recusandae dolorem quidem praesentium</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="gap"></div>
+    <div class="custom-shape-divider-bottom-1637127546">
+      <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+      </svg>
+    </div>
+  <div class="gap" style="background-color: #0E1116"></div>
+  <div class="custom-shape-divider-top-1637127398">
+      <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+      </svg>
+  </div>
+
+    <section id="contact">
+
+      <div class="container p-5">
+
+        <h1 class="text-center" style="color: rgba(13, 65, 236, 0.945);">Contact Us</h1>
+        <form action="" method="post"> {% csrf_token %}
+          <div class="form-floating mb-3">
+            {% comment %} <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"> {% endcomment %}
+            {{conform.email}}
+            <label for="floatingInput">{{conform.email.label_tag}}</label>
+          </div>
+          <div class="form-floating mb-3">
+            {% comment %} <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea> {% endcomment %}
+            {{conform.feedback}}
+            <label for="floatingTextarea">{{conform.feedback.label_tag}}</label>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-outline-primary mb-3">Send</button>
+          </div>
+        </form>
+        
+      </div>
+
+      
+
+    </section>
+
+    {% endblock sec2 %}
+
+    {% block footer %}
+    
+    <section id="footer">
+    
+      {% include 'footer.html' %}
+    </section>
+
+    {% endblock footer %}

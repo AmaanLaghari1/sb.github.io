@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sasta Bazaar - Add Product{% endblock title %}
+{% block head %}
+<style>
+  #add {
+    background: linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.4)), url("/static/images/2483946.jpg");
+    background-size: cover;
+  }
+
+  .errorlist {
+    color: red;
+    height: 20px;
+    list-style: none;
+  }
+</style>
+{% endblock head %}
+{% block content %}
+{% if messages %}
+{% for msg in messages %}
+<div style="position: absolute; top: 85px; width: 100vw;" {% if msg.tags %} class="alert alert-{{msg.tags}} alert-dismissible fade show" {% endif %} role="alert">
+    {{msg}} <strong>{{request.user.get_full_name}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+    {% endfor %}
+{% endif %}
+
+    <div class="container-fluid p-2" id="add">
+    
+      <h1 class="text-center">You can add your own product here!</h1>
+
+      <div class="col-sm-6 col-md-6 col-lg-6 m-auto p-2">
+        <form action="" method="post" novalidate enctype="multipart/form-data"> {% csrf_token %}
+            {% for field in addForm %}
+                <p>{{field.label_tag}} {{field}}</p>
+                <p>{{field.errors}}</p>
+            {% endfor %}
+            {{imgForm.management_form}}
+            {% for form in imgForm %}
+              <p>{{form.label_tag}} {{form}}</p>
+            {% endfor %}
+            <button type="submit" class="btn btn-success mt-2">Add Now</button>
+        </form>
+      </div>
+
+</div>
+{% endblock content %}

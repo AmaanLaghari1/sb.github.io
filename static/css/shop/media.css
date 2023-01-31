@@ -1,0 +1,40 @@
+@media only screen and (max-width:320px) {
+    .card-img-top {
+        height: 80px;
+        width: 80px;
+    }
+    .card-text {
+        font-size: 0px;
+    }
+    .card-title {
+        font-size: 6px;
+    }
+    .btn {
+        font-size: 6px;
+    }
+}
+@media only screen and (max-width:481px) {
+    .card-img-top {
+        height: 80px;
+        width: 80px;
+    }
+    .card-text {
+        font-size: 8px;
+    }
+    .card-title {
+        font-size: 12px;
+    }
+}
+@media only screen and (max-width:768px) {
+    .btn {
+        font-size: 6px;
+    }
+    .card-title {
+        font-size: 16px;
+    }
+}
+@media only screen and (max-width:1025px) {
+    .card-title {
+        font-size: 16px;
+    }
+}
